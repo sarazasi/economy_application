@@ -37,5 +37,5 @@ app.layout = dbc.Container([
 #   return fig
 
 # Run the app
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+#   app.run(debug=True)

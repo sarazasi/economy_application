@@ -100,3 +100,4 @@ layout = go.Layout(
 
 # グラフの表示
 fig = go.Figure(data=plot, layout=layout)
+fig.show()
