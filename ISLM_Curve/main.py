@@ -4,9 +4,11 @@ from dash import Dash, html, dash_table, dcc, callback, Output, Input
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
+import numpy as np
 
 #グラフ情報をインポート
-import IS
+# import IS
 
 #external_stylesheetsにBootstrapのテーマを入れる
 external_stylesheets = [dbc.themes.CERULEAN]
@@ -18,24 +20,42 @@ app.layout = dbc.Container([
     ]),
 
     dbc.Row([
-        #dbc.Col([
-        #    dcc.Graph(figure={}, id='is_graph')
-        #], width=6), 
-        dbc.Col([
-            dcc.Graph(
-                id='lm_graph', figure=IS.fig )
-        ], width=6)
-    ])
+        dcc.Graph(id='is-graph', figure={}, ), 
+    ]),
+    dbc.Row([
+       dcc.Slider(
+        id='graph-slider',
+        min=-10,
+        max=10,
+        value=0,
+        step=1,
+        marks={i: str(i) for i in range(-10, 11)}, 
+        updatemode='drag'
+        ) 
+    ]),
+
 ], fluid=True)
 
-#@callback(
-#    Output(component_id='my-first-graph-final', component_property='figure'),
-#    Input(component_id='radio-buttons-final', component_property='value')
-#)
-#def update_graph(col_chosen):
-#   fig = px.histogram(df, x='continent', y=col_chosen, histfunc='avg')
-#   return fig
 
-# Run the app
-#if __name__ == '__main__':
-#   app.run(debug=True)
+@callback(
+   Output(component_id='is-graph', component_property='figure'),
+   Input(component_id='graph-slider', component_property='value')
+)
+def update_graph(slider_value):
+    layout = go.Layout(
+            font_size=20,  # グラフ全体のフォントサイズ
+            hoverlabel_font_size=20,  # ホバーのフォントサイズ
+        		xaxis_range=(-10, 10),  # 横軸の表示範囲
+        		yaxis_range=(-12, 12),  # 縦軸の表示範囲
+        		legend=dict(x=1, xanchor='right'),  # 凡例のx位置をプロット領域の右端に
+   	)
+    # グラフのデータを更新
+    x = np.arange(0+slider_value, 3+slider_value, 0.1)
+    y = 3 * (x-slider_value)  # スライダーの値で波を移動
+    data = [go.Scatter(x=x, y=y, mode='lines')]
+    
+    return go.Figure(data=data, layout=layout)
+
+#Run the app
+if __name__ == '__main__':
+  app.run(debug=True)
