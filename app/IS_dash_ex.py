@@ -202,12 +202,12 @@ text_is = {
     button_is[2]['label'] : "貯蓄関数", 
     button_is[3]['label'] : "IS曲線"
 }
-# text_lm = {
-#     "利子率対L2" : "利子率対L2", 
-#     "実質貨幣供給" : "実質貨幣供給",
-#     "L1対国民所得" : "L1対国民所得",
-#     "LM曲線" : "LM曲線"
-# }
+text_lm = {
+    button_lm[0]['label'] : "利子率対L2", 
+    button_lm[1]['label'] : "実質貨幣供給", 
+    button_lm[2]['label'] : "L1対国民所得", 
+    button_lm[3]['label'] : "LM曲線"
+}
 
 #dbcのレイアウト
 app.layout = dbc.Container([
@@ -218,7 +218,7 @@ app.layout = dbc.Container([
                 id = 'all-graph_is', 
                 figure = fig_is
             ), 
-        ], width = 5), 
+        ]), 
         dbc.Col([
             html.Div(
                 dcc.Dropdown(
@@ -241,20 +241,19 @@ app.layout = dbc.Container([
                 figure = fig_lm
             ), 
         ]), 
-        # dbc.Col([
-        #     html.Div(
-        #         dcc.Dropdown(
-        #             id='dropdown_lm',
-        #             options=button_is,
-        #             multi=False,
-        #             placeholder='LM曲線',
-        #             value = 'LM曲線'
-        #         ),
-        #         style={'width': '15%', 'display': 'inline-block','margin-right': 10, 'margin-top':10}
-        #     ),  
-        #     html.Div(id='lm_ex', className='article'),
-         #   )]
-        # 
+        dbc.Col([
+            html.Div(
+                dcc.Dropdown(
+                    id='dropdown_lm',
+                    options=button_lm,
+                    multi=False,
+                    placeholder='LM曲線',
+                    value = 'LM曲線'
+                ),
+                style={'width': '15%', 'display': 'inline-block','margin-right': 10, 'margin-top':10}
+            ),  
+            html.Div(id='lm_ex', className='article'),
+        ])   
     ]), 
 
     # IS曲線のnextボタン
@@ -270,7 +269,7 @@ app.layout = dbc.Container([
                 id = 'graph_is', 
                 figure = {}
             )
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div(id='text1', className='article')
         ])
@@ -289,7 +288,7 @@ app.layout = dbc.Container([
                 id = 'graph_lm', 
                 figure = {}
             )
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div(id='text2', className="article")
         ])
@@ -302,7 +301,7 @@ app.layout = dbc.Container([
                 id = 'graph_islm', 
                 figure = go.Figure(data=[plot[3], plot[7]], layout = layout_islm),
             ),
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div("あいう", id='text3', className="article")
         ])
@@ -453,13 +452,12 @@ def on_slider_i(slider_value):
 #ドロップダウン処理
 @callback(
     Output(component_id='is_ex', component_property='children'),
-   # Output(component_id='lm_ex', component_property='value'),
+    Output(component_id='lm_ex', component_property='children'),
     Input(component_id='dropdown_is', component_property='value'),
-   # Input(component_id='dropdown_lm', component_property='value')
+    Input(component_id='dropdown_lm', component_property='value')
 )
-def on_dropdown(dd_is):
-   # return text_is[dd_is], text_lm[dd_lm]
-    return text_is[dd_is]
+def on_dropdown(dd_is, dd_lm):
+   return text_is[dd_is], text_lm[dd_lm]
 
 if __name__ == '__main__':
     app.run(debug=True)
