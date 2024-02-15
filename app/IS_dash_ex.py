@@ -34,13 +34,13 @@ xl_1 = np.arange(-6,1)
 y = xl_1 + 6
 ym["利子率対L2"] = y
 
-xl_2 = np.arange(-4, 1)
-y = -xl_2 - 4
-ym["実質貨幣供給"] = y
-
-xl_3 = np.arange(0, 8)
-y = -0.75*xl_3
+xl_2 = np.arange(0, 8)
+y = -0.75*xl_2
 ym["L1対国民所得"] = y
+
+xl_3 = np.arange(-4, 1)
+y = -xl_3 - 4
+ym["実質貨幣供給"] = y
 
 xl_4 = np.arange(1, 8)
 y = 0.7669392271704 * xl_4 + 2
@@ -159,17 +159,18 @@ fig_lm.add_trace(plot[4],
 fig_lm.update_yaxes(title_text="L2", range=[-12, 12], row=1, col=1)
 fig_lm.update_xaxes(title_text="利子率", range=[-10, 10], row=1, col=1)
 
-# 実質貨幣供給
+# L1対国民所得
 fig_lm.add_trace(plot[5],
+              row=2, col=2)
+fig_lm.update_yaxes(title_text="国民所得", range=[-12, 12], row=2, col=2)
+fig_lm.update_xaxes(title_text="L1", range=[-10, 10], row=2, col=2)
+
+# 実質貨幣供給
+fig_lm.add_trace(plot[6],
               row=2, col=1)
 fig_lm.update_yaxes(title_text="L2", range=[-12, 12],row=2, col=1)
 fig_lm.update_xaxes(title_text="L1", range=[-10, 10],row=2, col=1)
 
-# L1対国民所得
-fig_lm.add_trace(plot[6],
-              row=2, col=2)
-fig_lm.update_yaxes(title_text="国民所得", range=[-12, 12], row=2, col=2)
-fig_lm.update_xaxes(title_text="L1", range=[-10, 10], row=2, col=2)
 
 # LM曲線
 fig_lm.add_trace(plot[7],
@@ -188,25 +189,83 @@ button_is = [
     {'label' : '貯蓄関数', 'value' : '貯蓄関数'}, 
     {'label' : 'IS曲線', 'value' : 'IS曲線'}
 ]
-
 button_lm = [
     {'label' : '利子率対L2', 'value' : '利子率対L2'}, 
     {'label' : '実質貨幣供給', 'value' : '実質貨幣供給'}, 
     {'label' : 'L1対国民所得', 'value' : 'L1対国民所得'}, 
     {'label' : 'LM曲線', 'value' : 'LM曲線'}
 ]
+#本文のテキスト
+four_is = [
+    open(r'.\Text\four_glaf_is1.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\four_glaf_is2.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\four_glaf_is3.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\four_glaf_is4.txt', 'r', encoding="utf-8_sig"), 
+]
+f_is = [
+    four_is[1].read(), 
+    four_is[2].read(), 
+    four_is[3].read(), 
+    four_is[0].read()
+]
+four_lm = [
+    open(r'.\Text\four_glaf_lm1.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\four_glaf_lm2.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\four_glaf_lm3.txt', 'r', encoding="utf-8_sig"),
+    open(r'.\Text\four_glaf_lm4.txt', 'r', encoding="utf-8_sig"), 
+]
+f_lm = [
+    four_lm[0].read(), 
+    four_lm[1].read(), 
+    four_lm[3].read(), 
+    four_lm[2].read()
+]
+glaf_islm = open(r'.\Text\glaf-islm.txt', 'r', encoding="utf-8_sig")
+sift = [
+    open(r'.\Text\sift-is.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\sift-lm.txt', 'r', encoding="utf-8_sig")
+]
+path_is = [
+    open(r'.\Text\glaf_is1.txt', 'r', encoding="utf-8_sig"),
+    open(r'.\Text\glaf_is2.txt', 'r', encoding="utf-8_sig"),
+    open(r'.\Text\glaf_is3.txt', 'r', encoding="utf-8_sig"),
+]
+temp1 = path_is[0].read()
+temp2 = path_is[2].read()
+glaf_is = [
+    temp1, 
+    temp1, 
+    path_is[1].read(), 
+    temp2, 
+    temp2
+]
+path_lm = [
+    open(r'.\Text\glaf_lm1.txt', 'r', encoding="utf-8_sig"),  
+    open(r'.\Text\glaf_lm2.txt', 'r', encoding="utf-8_sig"), 
+    open(r'.\Text\glaf_lm3.txt', 'r', encoding="utf-8_sig"), 
+]
+temp1 = path_lm[0].read() 
+temp2 = path_lm[2].read()
+glaf_lm = [
+    temp1,
+    temp1,
+    path_lm[1].read(), 
+    temp2,
+    temp2
+]
+
 #各グラフの説明
 text_is = {
-    button_is[0]['label'] : "投資関数", 
-    button_is[1]['label'] : "45度線", 
-    button_is[2]['label'] : "貯蓄関数", 
-    button_is[3]['label'] : "IS曲線"
+    button_is[0]['label'] : f_is[0], 
+    button_is[1]['label'] : f_is[1], 
+    button_is[2]['label'] : f_is[2], 
+    button_is[3]['label'] : f_is[3]
 }
 text_lm = {
-    button_lm[0]['label'] : "利子率対L2", 
-    button_lm[1]['label'] : "実質貨幣供給", 
-    button_lm[2]['label'] : "L1対国民所得", 
-    button_lm[3]['label'] : "LM曲線"
+    button_lm[0]['label'] : f_lm[0], 
+    button_lm[1]['label'] : f_lm[1], 
+    button_lm[2]['label'] : f_lm[2], 
+    button_lm[3]['label'] : f_lm[3]
 }
 
 #dbcのレイアウト
@@ -303,7 +362,7 @@ app.layout = dbc.Container([
             ),
         ], ), 
         dbc.Col([
-            html.Div("あいう", id='text3', className="article")
+            html.Div(glaf_islm.read(), id='text3', className="article")
         ])
     ]), 
 
@@ -313,18 +372,18 @@ app.layout = dbc.Container([
             dcc.Graph(id='is-graph', figure={}, ), 
         ], width=6), 
         dbc.Col([
-            html.Div('スライド１', className = 'head1'),
+            html.Div('政府支出', className = 'head1'),
             dcc.Slider(
              id='graph-slider_i',
-             min=-5,
-             max=1,
+             min=-2,
+             max=5,
              value=0,
              step=1,
-             marks={i: str(i) for i in range(-5, 2)}, 
+             marks={i: str(i) for i in range(-2, 6)}, 
              updatemode='drag'
             ),
 
-            html.Div('スライド２', className = 'head2'), 
+            html.Div('税金', className = 'head2'), 
             dcc.Slider(
              id='graph-slider_s',
              min=-3,
@@ -334,6 +393,7 @@ app.layout = dbc.Container([
              marks={i: str(i) for i in range(-5, 4)}, 
              updatemode='drag'
             ),
+            html.Div(sift[0].read(), className='article')
         ]),
     ]),
 
@@ -343,16 +403,17 @@ app.layout = dbc.Container([
             dcc.Graph(id='lm-graph', figure={}, ), 
         ], width=6), 
         dbc.Col([
-            html.Div('スライド１', className = 'head1'),
+            html.Div('実質貨幣供給', className = 'head1'),
             dcc.Slider(
              id='graph-slider_lm',
-             min=-5,
-             max=1,
+             min=-3,
+             max=5,
              value=0,
              step=1,
-             marks={i: str(i) for i in range(-5, 2)}, 
+             marks={i: str(i) for i in range(-3, 6)}, 
              updatemode='drag'
-            )
+            ),
+            html.Div(sift[1].read(), className = 'article')
         ]),
     ]),
 ], fluid = True)
@@ -367,11 +428,7 @@ app.layout = dbc.Container([
 )
 def on_button_click(n1, n2):
     n1 = n1%5
-    text1 = f'{n1%5 + 1}個目' #IS曲線導出説明文
-
     n2 = n2%5 + 4
-    text2 = f'{n2%4 + 1}個目' #LM曲線導出説明文
-
     if n1 == 4:
         data_i = plot[:4]
     else:
@@ -382,7 +439,7 @@ def on_button_click(n1, n2):
     else:
         data_l = plot[n2]
     
-    return go.Figure(data = data_i, layout = layout_IS), text1, go.Figure(data = data_l, layout = layout_LM), text2
+    return go.Figure(data = data_i, layout = layout_IS), glaf_is[n1%5], go.Figure(data = data_l, layout = layout_LM), glaf_lm[(n2+1)%5]
 
 # スライダーでISグラフをシフト
 @callback(
@@ -392,8 +449,8 @@ def on_button_click(n1, n2):
 )
 def on_slider_i(slider_value_i, slider_value_s):
     #投資関数
-    x = np.arange(-6 + slider_value_i, -1 + slider_value_i, 0.1)
-    y = 1.5 * (x - slider_value_i) + 10
+    x = np.arange(-6 - slider_value_i, -1 - slider_value_i, 0.1)
+    y = 1.5 * (x + slider_value_i) + 10
     #投資関数を編集
     plot_is[0] = go.Scatter(
         x=x, y=y, name='投資関数',
@@ -403,7 +460,7 @@ def on_slider_i(slider_value_i, slider_value_s):
     )
     #貯蓄関数
     x = np.arange(0, 5)
-    y = -2*x + (2 + slider_value_s)
+    y = -2*x + (2 - slider_value_s)
     #貯蓄関数を編集
     plot_is[1] = go.Scatter(
         x=x, y=y, name='貯蓄関数',
@@ -411,9 +468,9 @@ def on_slider_i(slider_value_i, slider_value_s):
         showlegend=True,
         mode = 'lines'
     )
-    slider_value = slider_value_i - slider_value_s
-    x = np.arange(1 - slider_value, 5 - slider_value, 0.1)
-    y = -3 * (x + slider_value) + 13
+    slider_value = slider_value_i + slider_value_s
+    x = np.arange(1 + slider_value, 5 + slider_value, 0.1)
+    y = -3 * (x - slider_value) + 13
     #IS曲線を編集
     plot_is[3] = go.Scatter(
         x=x, y=y, name='IS曲線',
@@ -429,17 +486,17 @@ def on_slider_i(slider_value_i, slider_value_s):
     Input(component_id='graph-slider_lm', component_property='value'),
 )
 def on_slider_i(slider_value):
-    x = np.arange(-4 + slider_value, 1)
-    y = -(x - slider_value) - 4
+    x = np.arange(-4 - slider_value, 1)
+    y = -(x + slider_value) - 4
     #実質貨幣供給のグラフを編集
-    plot_lm[1] = go.Scatter(
+    plot_lm[2] = go.Scatter(
         x=x, y=y, name='実質貨幣供給',
-        marker_color='#66cdaa',
+        marker_color='#ff69b4',
         showlegend=True,
         mode = 'lines'
     )
-    x = np.arange(1 - slider_value, 8 - slider_value, 0.1)
-    y = 0.7669392271704*(x + slider_value) + 2
+    x = np.arange(1 + slider_value, 8 + slider_value, 0.1)
+    y = 0.7669392271704*(x - slider_value) + 2
     #LM曲線を編集
     plot_lm[3] = go.Scatter(
         x=x, y=y, name='IS曲線',
