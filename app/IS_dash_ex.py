@@ -181,6 +181,34 @@ fig_lm.update_xaxes(title_text="利子率", range=[-10, 10], row=1, col=2)
 fig_lm.update_layout(height=600, width=800, title_text="LM曲線の導出に使う4つのグラフ", 
                   margin=dict(l=50, r=50, t=100, b=50))
 
+#プルダウンボタンを作成
+button_is = [
+    {'label' : '投資関数', 'value' : '投資関数'}, 
+    {'label' : '45度線', 'value' : '45度線'}, 
+    {'label' : '貯蓄関数', 'value' : '貯蓄関数'}, 
+    {'label' : 'IS曲線', 'value' : 'IS曲線'}
+]
+
+button_lm = [
+    {'label' : '利子率対L2', 'value' : '利子率対L2'}, 
+    {'label' : '実質貨幣供給', 'value' : '実質貨幣供給'}, 
+    {'label' : 'L1対国民所得', 'value' : 'L1対国民所得'}, 
+    {'label' : 'LM曲線', 'value' : 'LM曲線'}
+]
+#各グラフの説明
+text_is = {
+    button_is[0]['label'] : "投資関数", 
+    button_is[1]['label'] : "45度線", 
+    button_is[2]['label'] : "貯蓄関数", 
+    button_is[3]['label'] : "IS曲線"
+}
+text_lm = {
+    button_lm[0]['label'] : "利子率対L2", 
+    button_lm[1]['label'] : "実質貨幣供給", 
+    button_lm[2]['label'] : "L1対国民所得", 
+    button_lm[3]['label'] : "LM曲線"
+}
+
 #dbcのレイアウト
 app.layout = dbc.Container([
     # 各グラフの描画（IS曲線）
@@ -190,6 +218,19 @@ app.layout = dbc.Container([
                 id = 'all-graph_is', 
                 figure = fig_is
             ), 
+        ]), 
+        dbc.Col([
+            html.Div(
+                dcc.Dropdown(
+                    id='dropdown_is',
+                    options=button_is,
+                    multi=False,
+                    placeholder='IS曲線',
+                    value = 'IS曲線'
+                ),
+                style={'width': '15%', 'display': 'inline-block','margin-right': 10, 'margin-top':10}
+            ), 
+            html.Div(id = 'is_ex', className="article")
         ])
     ]), 
     # 各グラフの描画（LM曲線）
@@ -199,7 +240,20 @@ app.layout = dbc.Container([
                 id = 'all-graph_lm', 
                 figure = fig_lm
             ), 
-        ])
+        ]), 
+        dbc.Col([
+            html.Div(
+                dcc.Dropdown(
+                    id='dropdown_lm',
+                    options=button_lm,
+                    multi=False,
+                    placeholder='LM曲線',
+                    value = 'LM曲線'
+                ),
+                style={'width': '15%', 'display': 'inline-block','margin-right': 10, 'margin-top':10}
+            ),  
+            html.Div(id='lm_ex', className='article'),
+        ])   
     ]), 
 
     # IS曲線のnextボタン
@@ -215,7 +269,7 @@ app.layout = dbc.Container([
                 id = 'graph_is', 
                 figure = {}
             )
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div(id='text1', className='article')
         ])
@@ -234,7 +288,7 @@ app.layout = dbc.Container([
                 id = 'graph_lm', 
                 figure = {}
             )
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div(id='text2', className="article")
         ])
@@ -247,7 +301,7 @@ app.layout = dbc.Container([
                 id = 'graph_islm', 
                 figure = go.Figure(data=[plot[3], plot[7]], layout = layout_islm),
             ),
-        ], width=5), 
+        ], ), 
         dbc.Col([
             html.Div("あいう", id='text3', className="article")
         ])
@@ -394,6 +448,16 @@ def on_slider_i(slider_value):
         mode = 'lines'
     )
     return go.Figure(data = plot_lm, layout=layout_sift_lm)
+
+#ドロップダウン処理
+@callback(
+    Output(component_id='is_ex', component_property='children'),
+    Output(component_id='lm_ex', component_property='children'),
+    Input(component_id='dropdown_is', component_property='value'),
+    Input(component_id='dropdown_lm', component_property='value')
+)
+def on_dropdown(dd_is, dd_lm):
+   return text_is[dd_is], text_lm[dd_lm]
 
 if __name__ == '__main__':
     app.run(debug=True)
